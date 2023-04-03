@@ -10,10 +10,17 @@
 
     <body>
         <h1>Welcome <span id="username"></span></h1>
-        <h1>Mines: <span id="mines-count">0</span></h1>
+        <h2>Mines: <span id="mines-count">0</span></h2>
+        <p><h3><span id="seconds">00</span>:<span id="tens">00</span></h3></p>
+        <div class="nav-div">
+            <button id="easyBut" class="nav-button">Easy</button>
+            <button id="mediumBut" class="nav-button">Medium</button>
+            <button id="hardBut" class="nav-button">Hard</button>
+            <button id="reset" class="nav-button">Reset</button>
+        </div>
         <div id="board"></div>
-        <br>
-        <button id="flag-button">🚩</button>
-        <button id="reset">RESET</button>
+        <div class="nav-div">
+            <button id="flag-button" class="nav-button">🚩</button>
+        </div>
     </body>
 </html>

@@ -8,15 +8,116 @@ var minesLocation = []; // "2-2", "3-4", "2-1"
 var tilesClicked = 0; //goal to click all tiles except the ones containing mines
 var flagEnabled = false;
 
+var difSelected = false;
 var gameOver = false;
 
+var stopperStartStop = false;
+
 window.onload = function() {
-    startGame();
+    var appendTens = document.getElementById("tens")
+    var appendSeconds = document.getElementById("seconds")
+    document.getElementById("easyBut").addEventListener("click", easyDif);
+    document.getElementById("mediumBut").addEventListener("click", mediumDif);
+    document.getElementById("hardBut").addEventListener("click", hardDif);
+    document.getElementById("easyBut").addEventListener("click", startClock);
+    document.getElementById("mediumBut").addEventListener("click", startClock);
+    document.getElementById("hardBut").addEventListener("click", startClock);
+    document.getElementById("username").innerText = localStorage.getItem("stored_username");
     let reset = document.getElementById("reset");
     reset.onclick = function() {
     location.reload();
     }
+
+    //Stopper
+    var seconds = 00;
+    var tens = 00;
+    var appendTens = document.getElementById("tens")
+    var appendSeconds = document.getElementById("seconds")
+    var Interval ;
+    function startClock(){
+        clearInterval(Interval);
+        Interval = setInterval(startTimer, 10);
+    }
+    function startTimer () {
+        if(!gameOver){
+            tens++; 
+
+            if(tens <= 9){
+            appendTens.innerHTML = "0" + tens;
+            }
+
+            if (tens > 9){
+            appendTens.innerHTML = tens;
+            } 
+            
+            if (tens > 99) {
+            //console.log("seconds");
+            seconds++;
+            appendSeconds.innerHTML = "0" + seconds;
+            tens = 0;
+            appendTens.innerHTML = "0" + 0;
+            }
+            
+            if (seconds > 9){
+            appendSeconds.innerHTML = seconds;
+            }
+        } else {
+            clearInterval(Interval);
+        }
+    }
 }
+function clearBoard(){
+    const list = document.getElementById("board");
+    while (list.hasChildNodes()) {
+        list.removeChild(list.firstChild);
+    }
+}
+
+function difSelect(){
+    difSelected = true;
+    document.getElementById("easyBut").style.color = "grey";
+    document.getElementById("mediumBut").style.color = "grey";
+    document.getElementById("hardBut").style.color = "grey";
+}
+
+function easyDif() {
+    if (!difSelected){
+        difSelect();
+        rows = 8;
+        columns = 8;
+        minesCount = 10;
+        clearBoard();
+        document.getElementById("board").style.height = "416px";
+        document.getElementById("board").style.width = "416px";
+        difSelect();
+        startGame();
+    }
+}
+function mediumDif() {
+    if (!difSelected){
+        difSelect();
+        rows = 14;
+        columns = 14;
+        minesCount = 40;
+        clearBoard();
+        document.getElementById("board").style.height = "728px";
+        document.getElementById("board").style.width = "728px";
+        startGame();
+    }
+}
+function hardDif() {
+    if (!difSelected){
+        difSelect();
+        rows = 14;
+        columns = 20;
+        minesCount = 60;
+        clearBoard();
+        document.getElementById("board").style.height = "728px";
+        document.getElementById("board").style.width = "1040px";
+        startGame();
+    }
+}
+
 
 function setMines() {
     // minesLocation.push("2-2");
@@ -40,9 +141,12 @@ function setMines() {
 
 
 function startGame() {
-    document.getElementById("username").innerText = localStorage.getItem("stored_username");
     document.getElementById("mines-count").innerText = minesCount;
     document.getElementById("flag-button").addEventListener("click", setFlag);
+    document.getElementById("board").addEventListener("contextmenu", (e) => {
+        setFlag();
+        e.preventDefault();
+    });
     setMines();
 
     //populate our board
@@ -77,7 +181,7 @@ function clickTile() {
     if (gameOver || this.classList.contains("tile-clicked")) {
         return;
     }
-
+    
     let tile = this;
     if (flagEnabled) {
         if (tile.innerText == "") {
@@ -86,6 +190,9 @@ function clickTile() {
         else if (tile.innerText == "🚩") {
             tile.innerText = "";
         }
+        return;
+    }
+    if (tile.innerText == "🚩"){
         return;
     }
 
