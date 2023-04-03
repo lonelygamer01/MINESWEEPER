@@ -1,6 +1,6 @@
 var board = [];
-var rows = 10;
-var columns = 10;
+var rows;
+var columns;
 
 var minesCount = 10;
 var minesLocation = []; // "2-2", "3-4", "2-1"
@@ -11,61 +11,87 @@ var flagEnabled = false;
 var difSelected = false;
 var gameOver = false;
 
+var lost;
+
 var stopperStartStop = false;
 
 window.onload = function() {
-    var appendTens = document.getElementById("tens")
+    //Stopper Elements
     var appendSeconds = document.getElementById("seconds")
+    var appendMinutes = document.getElementById("minutes")
     document.getElementById("easyBut").addEventListener("click", easyDif);
     document.getElementById("mediumBut").addEventListener("click", mediumDif);
     document.getElementById("hardBut").addEventListener("click", hardDif);
     document.getElementById("easyBut").addEventListener("click", startClock);
     document.getElementById("mediumBut").addEventListener("click", startClock);
     document.getElementById("hardBut").addEventListener("click", startClock);
+
+    //Saved username
     document.getElementById("username").innerText = localStorage.getItem("stored_username");
+    //Reset button
     let reset = document.getElementById("reset");
     reset.onclick = function() {
     location.reload();
     }
 
+    //Result table elements
+    document.getElementById("result_table").style.display = "none";
+    document.getElementById("ok").addEventListener("click", function () {
+        document.getElementById("result_table").style.display = "none";
+    });
+    function revealTable() {
+        if (lost) {
+            document.getElementById("win_or_lose").style.color = "red";
+            document.getElementById("win_or_lose").innerText = "LOST";
+        }
+        else
+        {
+            document.getElementById("win_or_lose").style.color = "green";
+            document.getElementById("win_or_lose").innerText = "WON";
+        }
+        document.getElementById("current_minutes").innerText = minutes;
+        document.getElementById("current_seconds").innerText = seconds;
+        document.getElementById("result_table").style.display = "block";
+    }
+
     //Stopper
+    var minutes = 00;
     var seconds = 00;
-    var tens = 00;
-    var appendTens = document.getElementById("tens")
     var appendSeconds = document.getElementById("seconds")
+    var appendMinutes = document.getElementById("minutes")
     var Interval ;
     function startClock(){
         clearInterval(Interval);
-        Interval = setInterval(startTimer, 10);
+        Interval = setInterval(startTimer, 1000);
     }
     function startTimer () {
         if(!gameOver){
-            tens++; 
+            seconds++; 
 
-            if(tens <= 9){
-            appendTens.innerHTML = "0" + tens;
-            }
-
-            if (tens > 9){
-            appendTens.innerHTML = tens;
-            } 
-            
-            if (tens > 99) {
-            //console.log("seconds");
-            seconds++;
+            if(seconds <= 9){
             appendSeconds.innerHTML = "0" + seconds;
-            tens = 0;
-            appendTens.innerHTML = "0" + 0;
             }
-            
+
             if (seconds > 9){
             appendSeconds.innerHTML = seconds;
+            } 
+            
+            if (seconds > 59) {
+            //console.log("minutes");
+            minutes++;
+            appendMinutes.innerHTML = "0" + minutes;
+            seconds = 0;
+            appendSeconds.innerHTML = "0" + 0;
+            }
+            
+            if (minutes > 9){
+            appendMinutes.innerHTML = minutes;
             }
         } else {
             clearInterval(Interval);
         }
     }
-}
+
 function clearBoard(){
     const list = document.getElementById("board");
     while (list.hasChildNodes()) {
@@ -80,6 +106,7 @@ function difSelect(){
     document.getElementById("hardBut").style.color = "grey";
 }
 
+//Defineing the difficulties
 function easyDif() {
     if (!difSelected){
         difSelect();
@@ -98,7 +125,7 @@ function mediumDif() {
         difSelect();
         rows = 14;
         columns = 14;
-        minesCount = 40;
+        minesCount = 30;
         clearBoard();
         document.getElementById("board").style.height = "728px";
         document.getElementById("board").style.width = "728px";
@@ -108,11 +135,11 @@ function mediumDif() {
 function hardDif() {
     if (!difSelected){
         difSelect();
-        rows = 14;
+        rows = 20;
         columns = 20;
-        minesCount = 60;
+        minesCount = 40;
         clearBoard();
-        document.getElementById("board").style.height = "728px";
+        document.getElementById("board").style.height = "1040px";
         document.getElementById("board").style.width = "1040px";
         startGame();
     }
@@ -199,7 +226,9 @@ function clickTile() {
     if (minesLocation.includes(tile.id)) {
         // alert("GAME OVER");
         gameOver = true;
+        lost = true;
         revealMines();
+        window.setTimeout(revealTable, 3000);
         return;
     }
 
@@ -273,6 +302,8 @@ function checkMine(r, c) {
     if (tilesClicked == rows * columns - minesCount) {
         document.getElementById("mines-count").innerText = "Cleared";
         gameOver = true;
+        lost = false;
+        window.setTimeout(revealTable, 3000);
     }
 
 }
@@ -286,4 +317,5 @@ function checkTile(r, c) {
         return 1;
     }
     return 0;
+}
 }

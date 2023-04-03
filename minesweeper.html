@@ -11,16 +11,28 @@
     <body>
         <h1>Welcome <span id="username"></span></h1>
         <h2>Mines: <span id="mines-count">0</span></h2>
-        <p><h3><span id="seconds">00</span>:<span id="tens">00</span></h3></p>
+        <p><h3><span id="minutes">00</span>:<span id="seconds">00</span></h3></p>
+        <div class="nav-div">
+            <button id="flag-button" class="nav-button">🚩</button>
         <div class="nav-div">
             <button id="easyBut" class="nav-button">Easy</button>
             <button id="mediumBut" class="nav-button">Medium</button>
             <button id="hardBut" class="nav-button">Hard</button>
             <button id="reset" class="nav-button">Reset</button>
         </div>
+        
         <div id="board"></div>
-        <div class="nav-div">
-            <button id="flag-button" class="nav-button">🚩</button>
+        <div id="result_table">
+            <div id="result">
+                You <span id="win_or_lose"></span>
+            </div>
+            <br><br>
+            <div id="game_time">
+                <span id="current_minutes"></span>:<span id="current_seconds"></span>
+            </div>
+            <br><br>
+            <button id="ok">OK</button>
+        </div>
         </div>
     </body>
 </html>
