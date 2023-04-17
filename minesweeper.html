@@ -5,34 +5,49 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Minesweeper</title>
         <link rel="stylesheet" href="minesweeper.css">
-        <script src="minesweeper.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="minesweeper.js"></script>  
     </head>
 
     <body>
         <h1>Welcome <span id="username"></span></h1>
         <h2>Mines: <span id="mines-count">0</span></h2>
-        <p><h3><span id="minutes">00</span>:<span id="seconds">00</span></h3></p>
-        <div class="nav-div">
-            <button id="flag-button" class="nav-button">🚩</button>
+        <p><h3><span id="minutes">00</span>:<span id="seconds">00</span>:<span id="tens">00</span></h3></p>
+        
+        <button id="flag-button" class="nav-button">🚩</button>
         <div class="nav-div">
             <button id="easyBut" class="nav-button">Easy</button>
             <button id="mediumBut" class="nav-button">Medium</button>
             <button id="hardBut" class="nav-button">Hard</button>
             <button id="reset" class="nav-button">Reset</button>
+            <button id="delete" class="nav-button">Delete</button>
         </div>
-        
+    
         <div id="board"></div>
         <div id="result_table">
             <div id="result">
                 You <span id="win_or_lose"></span>
             </div>
             <br><br>
+            <p>Mode: <span id="mode"></span></p>
+            <br><br>
+            <p>Your time:</p>
+            <br>
             <div id="game_time">
-                <span id="current_minutes"></span>:<span id="current_seconds"></span>
+                <span id="current_minutes"></span>:<span id="current_seconds"></span>:<span id="current_tens"></span>
             </div>
             <br><br>
             <button id="ok">OK</button>
         </div>
+        <br>
+        <div id="record_table">
+            <div>The best game:</div>
+            <br>
+            <div><span id="best_username"></span> - <span id="best_time"></span> - <span id="best_difmode"></span> - <span id="best_date"></span></div>
+            <br><br>
+            <div>The last game:</div>
+            <br>
+            <div><span id="last_username"></span> - <span id="last_time"></span> - <span id="last_difmode"></span> - <span id="last_date"></span></div>
         </div>
     </body>
 </html>

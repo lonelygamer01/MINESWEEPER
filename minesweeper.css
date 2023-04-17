@@ -93,7 +93,7 @@ h1, h2, h3
 {
   width: 600px;
   height: 400px;
-  background-color: rgba(255,255,255,.5);
+  background-color: rgba(255,255,255,.7);
   border-radius: 10px;
   border-style: solid;
   position: absolute;
@@ -110,4 +110,13 @@ h1, h2, h3
   width: 100px;
   height: 60px;
   border-radius: 5px;
+}
+#record_table
+{
+  color: white;
+  border-radius: 10px;
+  border-style: solid;
+  background-color: grey;
+  margin-left: 30%;
+  margin-right: 30%;
 }
